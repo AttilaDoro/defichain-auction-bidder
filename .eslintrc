@@ -23,6 +23,8 @@
           "minProperties": 7
         }
       }
-    ]
+    ],
+    "react/function-component-definition": [1, { "namedComponents": "arrow-function" }],
+    "default-param-last": 0
   }
 }
