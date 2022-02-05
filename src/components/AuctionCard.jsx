@@ -75,7 +75,7 @@ const AuctionCard = ({
         <div>{`Aukció vége: ${maxBlockNumber}`}</div>
         <div>{`Token: ${bidToken}`}</div>
       </div>
-      <Link href={url} target="_blank" rel="noopener noreferrer">További adatok</Link>
+      <Link href={url} target="_blank" rel="noopener noreferrer">Aukció megnyitása</Link>
       <Snackbar
         open={openAlert}
         autoHideDuration={2000}

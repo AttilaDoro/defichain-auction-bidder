@@ -12,3 +12,8 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+.sort-by {
+  width: 100px;
+  align-self: flex-start;
+}
