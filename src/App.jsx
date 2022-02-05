@@ -29,7 +29,7 @@ const getState = (state, dispatch) => ({
     try {
       dispatch({ type: GET_AUCTIONS_START });
       const response = await fetch('http://localhost:4000/get-auction-list/500?minMarginPercentage=1.5');
-      const auctions = response.json();
+      const auctions = await response.json();
       dispatch({ type: GET_AUCTIONS_FINISH, auctions });
     } catch (error) {
       dispatch({ type: GET_AUCTIONS_ERROR, error });
