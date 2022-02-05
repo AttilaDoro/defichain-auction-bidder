@@ -1,5 +1,4 @@
 .auction-card {
-  background-color: #f8f8f8;
   padding: 40px;
   margin: 25px;
   font-weight: bold;
@@ -8,10 +7,10 @@
 .card-content {
   margin-bottom: 25px;
   cursor: pointer;
+  color: #1976d2;
 }
 
 .card-content div {
   text-align: left;
   margin: 15px 0px;
-  color: #1976d2;
 }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import GavelRounded from '@mui/icons-material/GavelRounded';
-import LoadingButton from '@mui/lab/LoadingButton';
+import CircularProgress from '@mui/material/CircularProgress';
 import './Home.css';
 import context from '../state/context';
 import AuctionCard from '../components/AuctionCard';
@@ -34,7 +34,7 @@ const Home = () => {
         )
       }
       {
-        isGetAuctionsLoading && <LoadingButton loading variant="outlined" size="large" />
+        isGetAuctionsLoading && <CircularProgress />
       }
       <div className="auction-cards">
         {
