@@ -74,7 +74,7 @@ const Home = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={sortBy}
-              label="Age"
+              label="Rendezés"
               onChange={event => handleChange(event, setSortBy)}
             >
               <MenuItem value="time">Idő</MenuItem>

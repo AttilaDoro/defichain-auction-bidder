@@ -63,8 +63,8 @@ const AuctionCard = ({
             BATCH_INDEX=${urlChunks[6]}
             MY_WALLET_ADDRESS=${myWalletAddress}
             BID_TOKEN=${bidToken}
-            MIN_BID=${minBidNum.multipliedBy('1.05').toString()}
-            MAX_BID=${maxPriceNum.toString()}
+            MIN_BID=${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
+            MAX_BID=${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
           `);
         }}
       >
