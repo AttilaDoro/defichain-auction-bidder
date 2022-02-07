@@ -17,3 +17,16 @@
   width: 100px;
   align-self: flex-start;
 }
+
+.api-inputs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 500px;
+  margin-bottom: 30px;
+}
+
+.num-of-auctions {
+  width: 110px;
+}

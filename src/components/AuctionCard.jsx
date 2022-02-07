@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import BigNumber from 'bignumber.js';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
 import './AuctionCard.css';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -13,6 +15,25 @@ const handleClose = (reason, setOpenAlert) => {
   if (reason === 'clickaway') return;
   setOpenAlert(false);
 };
+
+const getConfigData = ({
+  clientEndpointUrl,
+  maxBlockNumber,
+  blockDelta,
+  urlChunks,
+  myWalletAddress,
+  bidToken,
+  minBidNum,
+  maxPriceNum,
+}) => `CLIENT_ENDPOINT_URL=${clientEndpointUrl}
+MAX_BLOCK_NUMBER=${maxBlockNumber}
+BLOCK_DELTA=${blockDelta}
+VAULT_ID=${urlChunks[4]}
+BATCH_INDEX=${urlChunks[6]}
+MY_WALLET_ADDRESS=${myWalletAddress}
+BID_TOKEN=${bidToken}
+MIN_BID=${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
+MAX_BID=${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}`;
 
 const AuctionCard = ({
   url,
@@ -55,25 +76,24 @@ const AuctionCard = ({
           setWasClicked(true);
           setOpenAlert(true);
           const urlChunks = url.split('/');
-          navigator.clipboard.writeText(`
-            CLIENT_ENDPOINT_URL=${clientEndpointUrl}
-            MAX_BLOCK_NUMBER=${maxBlockNumber}
-            BLOCK_DELTA=${blockDelta}
-            VAULT_ID=${urlChunks[4]}
-            BATCH_INDEX=${urlChunks[6]}
-            MY_WALLET_ADDRESS=${myWalletAddress}
-            BID_TOKEN=${bidToken}
-            MIN_BID=${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
-            MAX_BID=${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
-          `);
+          navigator.clipboard.writeText(getConfigData({
+            clientEndpointUrl,
+            maxBlockNumber,
+            blockDelta,
+            urlChunks,
+            myWalletAddress,
+            bidToken,
+            minBidNum,
+            maxPriceNum,
+          }));
         }}
       >
-        <div>{`Minimum összeg: ${minBidDusdNum.toPrecision(10)} dUSD`}</div>
-        <div>{`Nyeremény: ${rewardNum.toPrecision(10)} dUSD`}</div>
-        <div>{`Profit: ${diffNum.toPrecision(7)} dUSD`}</div>
-        <div>{`Margin: ${marginNum.toPrecision(5)} %`}</div>
-        <div>{`Aukció vége: ${maxBlockNumber}`}</div>
-        <div>{`Token: ${bidToken}`}</div>
+        <Typography variant="body1" align="left" gutterBottom>{`Minimum összeg: ${minBidDusdNum.toPrecision(10)} dUSD`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Nyeremény: ${rewardNum.toPrecision(10)} dUSD`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Profit: ${diffNum.toPrecision(7)} dUSD`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Margin: ${marginNum.toPrecision(4)}%`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Aukció vége: ${maxBlockNumber}`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Token: ${bidToken}`}</Typography>
       </div>
       <Link href={url} target="_blank" rel="noopener noreferrer">Aukció megnyitása</Link>
       <Snackbar

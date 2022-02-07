@@ -13,10 +13,11 @@ import AuctionList from './pages/AuctionList';
 
 const getState = (state, dispatch) => ({
   ...state,
-  getAuctions: async () => {
+  getAuctions: async (auctionNum, minMargin) => {
     try {
       dispatch({ type: GET_AUCTIONS_START });
-      const response = await fetch('http://localhost:4000/get-auction-list/500?minMarginPercentage=2');
+      const url = `http://localhost:4000/get-auction-list/${auctionNum}?minMarginPercentage=${minMargin}`;
+      const response = await fetch(url);
       const auctions = await response.json();
       dispatch({ type: GET_AUCTIONS_FINISH, auctions });
     } catch (error) {
