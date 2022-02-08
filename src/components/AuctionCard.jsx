@@ -32,6 +32,7 @@ VAULT_ID=${urlChunks[4]}
 BATCH_INDEX=${urlChunks[6]}
 MY_WALLET_ADDRESS=${myWalletAddress}
 BID_TOKEN=${bidToken}
+NEW_BID_RAISE=1.01
 MIN_BID=${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
 MAX_BID=${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}`;
 

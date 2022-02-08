@@ -9,13 +9,13 @@ import Select from '@mui/material/Select';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import BigNumber from 'bignumber.js';
 import './Home.css';
 import context from '../state/context';
 import AuctionCard from '../components/AuctionCard';
 import CustomPagination from '../components/CustomPagination';
+import TokenCheckboxes from '../components/TokenCheckboxes';
+import { giveAllCheckboxesTheSameValue } from '../utils';
 
 const handleChange = ({ target }, setSortBy) => {
   setSortBy(target.value);
@@ -47,13 +47,6 @@ const handleInputChange = (newValue, setNewValue) => {
   setNewValue(newValue);
 };
 
-const handleTokenChange = ({ target }, selectedTokens, setSelectedTokens) => {
-  setSelectedTokens({
-    ...selectedTokens,
-    [target.name]: target.checked,
-  });
-};
-
 const Home = () => {
   const {
     REACT_APP_CLIENT_ENDPOINT_URL: clientEndpointUrl,
@@ -66,14 +59,11 @@ const Home = () => {
   const [sortBy, setSortBy] = useState('time');
   const [minMargin, setMinMargin] = useState('2');
   const [auctionNum, setAuctionNum] = useState('500');
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [nonTokenCheckboxes, setNonTokenCheckboxes] = useState({ all: false, none: false });
   const tokens = [...new Set(auctions.map(({ bidToken }) => bidToken))];
   tokens.sort();
-  const availableTokens = tokens.reduce((acc, newVal) => {
-    const newAcc = { ...acc };
-    newAcc[newVal] = true;
-    return newAcc;
-  }, {});
+  const availableTokens = giveAllCheckboxesTheSameValue(tokens, true);
   const [selectedTokens, setSelectedTokens] = useState({});
   auctions.sort((firstAuction, secondAuction) => sortAuctions(firstAuction, secondAuction, sortBy));
   const filteredAuctions = auctions.filter(({ bidToken }) => selectedTokens[bidToken]);
@@ -149,23 +139,13 @@ const Home = () => {
       }
       {
         auctions.length > 1 && !isGetAuctionsLoading && (
-          <div>
-            {
-              Object.entries(selectedTokens).map(([token, isSelected]) => (
-                <FormControlLabel
-                  key={token}
-                  control={(
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={event => handleTokenChange(event, selectedTokens, setSelectedTokens)}
-                      name={token}
-                    />
-                  )}
-                  label={token}
-                />
-              ))
-            }
-          </div>
+          <TokenCheckboxes
+            tokens={tokens}
+            selectedTokens={selectedTokens}
+            setSelectedTokens={setSelectedTokens}
+            nonTokenCheckboxes={nonTokenCheckboxes}
+            setNonTokenCheckboxes={setNonTokenCheckboxes}
+          />
         )
       }
       {
