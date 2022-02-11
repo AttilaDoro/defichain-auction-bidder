@@ -6,6 +6,8 @@ import Link from '@mui/material/Link';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import InfoRounded from '@mui/icons-material/InfoRounded';
 import './AuctionCard.css';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -17,24 +19,22 @@ const handleClose = (reason, setOpenAlert) => {
 };
 
 const getConfigData = ({
-  clientEndpointUrl,
-  maxBlockNumber,
-  blockDelta,
+  // clientEndpointUrl,
+  // maxBlockNumber,
+  // blockDelta,
   urlChunks,
-  myWalletAddress,
+  // myWalletAddress,
   bidToken,
   minBidNum,
   maxPriceNum,
-}) => `CLIENT_ENDPOINT_URL=${clientEndpointUrl}
-MAX_BLOCK_NUMBER=${maxBlockNumber}
-BLOCK_DELTA=${blockDelta}
-VAULT_ID=${urlChunks[4]}
-BATCH_INDEX=${urlChunks[6]}
-MY_WALLET_ADDRESS=${myWalletAddress}
-BID_TOKEN=${bidToken}
-NEW_BID_RAISE=1.01
-MIN_BID=${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}
-MAX_BID=${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}`;
+}) => `{
+  vaultId: '${urlChunks[4]}',
+  batchIndex: ${urlChunks[6]},
+  bidToken: '${bidToken}',
+  newBidRaise: '1.011',
+  minBid: '${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
+  maxBid: '${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
+},`;
 
 const AuctionCard = ({
   url,
@@ -58,6 +58,7 @@ const AuctionCard = ({
   const marginNum = new BigNumber(margin);
   const maxPriceNum = new BigNumber(maxPrice);
   const minBidNum = new BigNumber(minBid);
+  const urlChunks = url.split('/');
   return (
     <Card
       className="auction-card"
@@ -76,7 +77,6 @@ const AuctionCard = ({
           }, 500);
           setWasClicked(true);
           setOpenAlert(true);
-          const urlChunks = url.split('/');
           navigator.clipboard.writeText(getConfigData({
             clientEndpointUrl,
             maxBlockNumber,
@@ -95,6 +95,9 @@ const AuctionCard = ({
         <Typography variant="body1" align="left" gutterBottom>{`Margin: ${marginNum.toPrecision(4)}%`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Aukció vége: ${maxBlockNumber}`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Token: ${bidToken}`}</Typography>
+        <Tooltip title={`${urlChunks[4]}/${urlChunks[6]}`} arrow>
+          <InfoRounded />
+        </Tooltip>
       </div>
       <Link href={url} target="_blank" rel="noopener noreferrer">Aukció megnyitása</Link>
       <Snackbar

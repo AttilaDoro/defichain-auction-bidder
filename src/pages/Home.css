@@ -15,7 +15,10 @@
 
 .sort-by {
   width: 100px;
-  align-self: flex-start;
+}
+
+.results {
+  margin-bottom: 30px;
 }
 
 .api-inputs {
@@ -29,4 +32,9 @@
 
 .num-of-auctions {
   width: 110px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
 }

@@ -1,0 +1,8 @@
+.center-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  width: 1215px;
+}

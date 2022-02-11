@@ -1,0 +1,10 @@
+.search-auctions {
+  border-bottom: 5px solid #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  padding-bottom: 50px;
+}
