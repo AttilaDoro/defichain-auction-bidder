@@ -11,9 +11,6 @@ const CenterColumn = ({
   page,
   setPage,
   auctionsOnPage,
-  clientEndpointUrl,
-  blockDelta,
-  myWalletAddress,
 }) => (
   <div className="center-column">
     {
@@ -37,6 +34,9 @@ const CenterColumn = ({
           bidToken,
           maxPrice,
           minBid,
+          myStartingBid,
+          myDiff,
+          myMargin,
         }) => (
           <AuctionCard
             key={url}
@@ -48,10 +48,10 @@ const CenterColumn = ({
             maxBlockNumber={maxBlockNumber}
             bidToken={bidToken}
             maxPrice={maxPrice}
-            clientEndpointUrl={clientEndpointUrl}
-            blockDelta={blockDelta}
-            myWalletAddress={myWalletAddress}
             minBid={minBid}
+            myStartingBid={myStartingBid}
+            myDiff={myDiff}
+            myMargin={myMargin}
           />
         ))
       }

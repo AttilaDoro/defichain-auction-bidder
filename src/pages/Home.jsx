@@ -45,16 +45,15 @@ const handleInputChange = (newValue, setNewValue) => {
 
 const Home = () => {
   const {
-    REACT_APP_CLIENT_ENDPOINT_URL: clientEndpointUrl,
-    REACT_APP_BLOCK_DELTA: blockDelta,
-    REACT_APP_MY_WALLET_ADDRESS: myWalletAddress,
     REACT_APP_PAGE_SIZE,
+    REACT_APP_DEFAULT_MARGIN: defaultMargin,
+    REACT_APP_DEFAULT_AUCTION_NUM: defaultAuctionNum,
   } = process.env;
   const pageSize = parseInt(REACT_APP_PAGE_SIZE, 10);
   const { getAuctions, isGetAuctionsLoading, auctions } = useContext(context);
   const [sortBy, setSortBy] = useState('time');
-  const [minMargin, setMinMargin] = useState('3');
-  const [auctionNum, setAuctionNum] = useState('200');
+  const [minMargin, setMinMargin] = useState(defaultMargin);
+  const [auctionNum, setAuctionNum] = useState(defaultAuctionNum);
   const [page, setPage] = useState(1);
   const [nonTokenCheckboxes, setNonTokenCheckboxes] = useState({ all: true, none: false });
   const [nonBlockCheckboxes, setNonBlockCheckboxes] = useState({ all: true, none: false });
@@ -127,9 +126,6 @@ const Home = () => {
           page={page}
           setPage={setPage}
           auctionsOnPage={auctionsOnPage}
-          clientEndpointUrl={clientEndpointUrl}
-          blockDelta={blockDelta}
-          myWalletAddress={myWalletAddress}
         />
         <RightColumn
           auctions={auctions}

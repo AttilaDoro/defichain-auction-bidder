@@ -19,20 +19,18 @@ const handleClose = (reason, setOpenAlert) => {
 };
 
 const getConfigData = ({
-  // clientEndpointUrl,
-  // maxBlockNumber,
-  // blockDelta,
   urlChunks,
-  // myWalletAddress,
   bidToken,
   minBidNum,
   maxPriceNum,
+  startingBidRaise,
+  newBidRaise,
 }) => `{
   vaultId: '${urlChunks[4]}',
   batchIndex: ${urlChunks[6]},
   bidToken: '${bidToken}',
-  newBidRaise: '1.011',
-  minBid: '${minBidNum.multipliedBy('1.05').decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
+  newBidRaise: '${newBidRaise}',
+  minBid: '${minBidNum.multipliedBy(startingBidRaise).decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
   maxBid: '${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
 },`;
 
@@ -45,10 +43,10 @@ const AuctionCard = ({
   maxBlockNumber,
   bidToken,
   maxPrice,
-  clientEndpointUrl,
-  blockDelta,
-  myWalletAddress,
   minBid,
+  myStartingBid,
+  myDiff,
+  myMargin,
 }) => {
   const [wasClicked, setWasClicked] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -58,6 +56,14 @@ const AuctionCard = ({
   const marginNum = new BigNumber(margin);
   const maxPriceNum = new BigNumber(maxPrice);
   const minBidNum = new BigNumber(minBid);
+  const myStartingBidNum = new BigNumber(myStartingBid);
+  const myDiffNum = new BigNumber(myDiff);
+  const myMarginNum = new BigNumber(myMargin);
+  const {
+    REACT_APP_STARTING_BID_RAISE: startingBidRaise,
+    REACT_APP_NEW_BID_RAISE: newBidRaise,
+  } = process.env;
+
   const urlChunks = url.split('/');
   return (
     <Card
@@ -78,14 +84,12 @@ const AuctionCard = ({
           setWasClicked(true);
           setOpenAlert(true);
           navigator.clipboard.writeText(getConfigData({
-            clientEndpointUrl,
-            maxBlockNumber,
-            blockDelta,
             urlChunks,
-            myWalletAddress,
             bidToken,
             minBidNum,
             maxPriceNum,
+            startingBidRaise,
+            newBidRaise,
           }));
         }}
       >
@@ -95,6 +99,9 @@ const AuctionCard = ({
         <Typography variant="body1" align="left" gutterBottom>{`Margin: ${marginNum.toPrecision(4)}%`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Aukció vége: ${maxBlockNumber}`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Token: ${bidToken}`}</Typography>
+        {myStartingBid && <Typography variant="body1" align="left" gutterBottom>{`my min bid: ${myStartingBidNum.toPrecision(10)}`}</Typography>}
+        {myDiff && <Typography variant="body1" align="left" gutterBottom>{`my diff: ${myDiffNum.toPrecision(7)}`}</Typography>}
+        {myMargin && <Typography variant="body1" align="left" gutterBottom>{`my diff: ${myMarginNum.toPrecision(4)}%`}</Typography>}
         <Tooltip title={`${urlChunks[4]}/${urlChunks[6]}`} arrow>
           <InfoRounded />
         </Tooltip>
