@@ -9,14 +9,14 @@ import Context from './state/context';
 import reducer, { initialState } from './state/reducer';
 import { GET_AUCTIONS_START, GET_AUCTIONS_FINISH, GET_AUCTIONS_ERROR } from './state/actions';
 import Home from './pages/Home';
-import AuctionList from './pages/AuctionList';
 
 const getState = (state, dispatch) => ({
   ...state,
-  getAuctions: async (auctionNum, minMargin) => {
+  getAuctions: async (auctionNum, minMargin, minProfit) => {
     try {
       dispatch({ type: GET_AUCTIONS_START });
-      const url = `http://localhost:4000/get-auction-list/${auctionNum}?minMarginPercentage=${minMargin}`;
+      // eslint-disable-next-line max-len
+      const url = `http://localhost:4000/get-auction-list/${auctionNum}?minMarginPercentage=${minMargin}&minProfit=${minProfit}`;
       const response = await fetch(url);
       const auctions = await response.json();
       dispatch({ type: GET_AUCTIONS_FINISH, auctions });
@@ -35,7 +35,6 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" exact element={<Home />} />
-            <Route path="auction/:id" element={<AuctionList />} />
           </Routes>
         </BrowserRouter>
       </Context.Provider>

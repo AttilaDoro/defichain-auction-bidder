@@ -14,6 +14,8 @@ const SearchAuctions = ({
   getAuctions,
   auctionNum,
   isGetAuctionsLoading,
+  minProfit,
+  setMinProfit,
 }) => (
   <div className="search-auctions">
     <div className="api-inputs">
@@ -40,6 +42,16 @@ const SearchAuctions = ({
         <ToggleButton value="4">4%</ToggleButton>
         <ToggleButton value="5">5%</ToggleButton>
       </ToggleButtonGroup>
+      <TextField
+        className="num-of-auctions"
+        type="number"
+        id="outlined-basic"
+        label="Minimum profit"
+        variant="outlined"
+        defaultValue={minProfit}
+        disabled={isGetAuctionsLoading}
+        onChange={event => handleInputChange(event.target.value, setMinProfit)}
+      />
     </div>
     <Button
       variant="outlined"
@@ -49,7 +61,7 @@ const SearchAuctions = ({
       sx={{ fontWeight: 'bold' }}
       disabled={isGetAuctionsLoading}
       onClick={() => {
-        getAuctions(auctionNum, minMargin);
+        getAuctions(auctionNum, minMargin, minProfit);
       }}
     >
       Megnézem vannak-e jó aukciók

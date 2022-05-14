@@ -44,9 +44,6 @@ const AuctionCard = ({
   bidToken,
   maxPrice,
   minBid,
-  myStartingBid,
-  myDiff,
-  myMargin,
 }) => {
   const [wasClicked, setWasClicked] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -56,9 +53,6 @@ const AuctionCard = ({
   const marginNum = new BigNumber(margin);
   const maxPriceNum = new BigNumber(maxPrice);
   const minBidNum = new BigNumber(minBid);
-  const myStartingBidNum = new BigNumber(myStartingBid);
-  const myDiffNum = new BigNumber(myDiff);
-  const myMarginNum = new BigNumber(myMargin);
   const {
     REACT_APP_STARTING_BID_RAISE: startingBidRaise,
     REACT_APP_NEW_BID_RAISE: newBidRaise,
@@ -99,9 +93,6 @@ const AuctionCard = ({
         <Typography variant="body1" align="left" gutterBottom>{`Margin: ${marginNum.toPrecision(4)}%`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Aukció vége: ${maxBlockNumber}`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Token: ${bidToken}`}</Typography>
-        {myStartingBid && <Typography variant="body1" align="left" gutterBottom>{`my min bid: ${myStartingBidNum.toPrecision(10)}`}</Typography>}
-        {myDiff && <Typography variant="body1" align="left" gutterBottom>{`my diff: ${myDiffNum.toPrecision(7)}`}</Typography>}
-        {myMargin && <Typography variant="body1" align="left" gutterBottom>{`my diff: ${myMarginNum.toPrecision(4)}%`}</Typography>}
         <Tooltip title={`${urlChunks[4]}/${urlChunks[6]}`} arrow>
           <InfoRounded />
         </Tooltip>

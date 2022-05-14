@@ -34,9 +34,6 @@ const CenterColumn = ({
           bidToken,
           maxPrice,
           minBid,
-          myStartingBid,
-          myDiff,
-          myMargin,
         }) => (
           <AuctionCard
             key={url}
@@ -49,9 +46,6 @@ const CenterColumn = ({
             bidToken={bidToken}
             maxPrice={maxPrice}
             minBid={minBid}
-            myStartingBid={myStartingBid}
-            myDiff={myDiff}
-            myMargin={myMargin}
           />
         ))
       }

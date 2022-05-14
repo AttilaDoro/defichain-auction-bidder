@@ -48,11 +48,13 @@ const Home = () => {
     REACT_APP_PAGE_SIZE,
     REACT_APP_DEFAULT_MARGIN: defaultMargin,
     REACT_APP_DEFAULT_AUCTION_NUM: defaultAuctionNum,
+    REACT_APP_DEFAULT_MIN_PROFIT: defaultMinProfit,
   } = process.env;
   const pageSize = parseInt(REACT_APP_PAGE_SIZE, 10);
   const { getAuctions, isGetAuctionsLoading, auctions } = useContext(context);
   const [sortBy, setSortBy] = useState('time');
   const [minMargin, setMinMargin] = useState(defaultMargin);
+  const [minProfit, setMinProfit] = useState(defaultMinProfit);
   const [auctionNum, setAuctionNum] = useState(defaultAuctionNum);
   const [page, setPage] = useState(1);
   const [nonTokenCheckboxes, setNonTokenCheckboxes] = useState({ all: true, none: false });
@@ -87,6 +89,8 @@ const Home = () => {
         getAuctions={getAuctions}
         auctionNum={auctionNum}
         isGetAuctionsLoading={isGetAuctionsLoading}
+        minProfit={minProfit}
+        setMinProfit={setMinProfit}
       />
       {isGetAuctionsLoading && <CircularProgress />}
       {!isGetAuctionsLoading && <div className="results">{`Találatok: ${filteredAuctions.length}`}</div>}
