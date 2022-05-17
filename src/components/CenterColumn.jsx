@@ -11,6 +11,7 @@ const CenterColumn = ({
   page,
   setPage,
   auctionsOnPage,
+  currentBlock,
 }) => (
   <div className="center-column">
     {
@@ -46,6 +47,7 @@ const CenterColumn = ({
             bidToken={bidToken}
             maxPrice={maxPrice}
             minBid={minBid}
+            currentBlock={currentBlock}
           />
         ))
       }

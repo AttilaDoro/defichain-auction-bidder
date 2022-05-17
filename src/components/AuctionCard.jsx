@@ -34,6 +34,15 @@ const getConfigData = ({
   maxBid: '${maxPriceNum.decimalPlaces(8, BigNumber.ROUND_CEIL).toFixed(8)}',
 },`;
 
+const getRemainingTime = (blocks) => {
+  const blocksRemaining = blocks * 30;
+  const h = Math.floor(blocksRemaining / 3600);
+  const m = Math.floor((blocksRemaining % 3600) / 60);
+  const hDisplay = h > 0 ? `${h}h` : '0h';
+  const mDisplay = m >= 0 ? `${m.toString().padStart(2, '0')}m` : '';
+  return `~${hDisplay} ${mDisplay}`;
+};
+
 const AuctionCard = ({
   url,
   minBidDusd,
@@ -44,6 +53,7 @@ const AuctionCard = ({
   bidToken,
   maxPrice,
   minBid,
+  currentBlock,
 }) => {
   const [wasClicked, setWasClicked] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -53,6 +63,7 @@ const AuctionCard = ({
   const marginNum = new BigNumber(margin);
   const maxPriceNum = new BigNumber(maxPrice);
   const minBidNum = new BigNumber(minBid);
+  const blocksRemaining = BigNumber.max(maxBlockNumber - currentBlock, 0).toNumber();
   const {
     REACT_APP_STARTING_BID_RAISE: startingBidRaise,
     REACT_APP_NEW_BID_RAISE: newBidRaise,
@@ -93,6 +104,7 @@ const AuctionCard = ({
         <Typography variant="body1" align="left" gutterBottom>{`Margin: ${marginNum.toPrecision(4)}%`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Aukció vége: ${maxBlockNumber}`}</Typography>
         <Typography variant="body1" align="left" gutterBottom>{`Token: ${bidToken}`}</Typography>
+        <Typography variant="body1" align="left" gutterBottom>{`Idő: ${getRemainingTime(blocksRemaining)} (${blocksRemaining} blokk)`}</Typography>
         <Tooltip title={`${urlChunks[4]}/${urlChunks[6]}`} arrow>
           <InfoRounded />
         </Tooltip>

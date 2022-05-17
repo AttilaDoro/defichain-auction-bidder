@@ -51,7 +51,7 @@ const Home = () => {
     REACT_APP_DEFAULT_MIN_PROFIT: defaultMinProfit,
   } = process.env;
   const pageSize = parseInt(REACT_APP_PAGE_SIZE, 10);
-  const { getAuctions, isGetAuctionsLoading, auctions } = useContext(context);
+  const { getAuctions, isGetAuctionsLoading, auctions, currentBlock, getCurrentBlock } = useContext(context);
   const [sortBy, setSortBy] = useState('time');
   const [minMargin, setMinMargin] = useState(defaultMargin);
   const [minProfit, setMinProfit] = useState(defaultMinProfit);
@@ -79,6 +79,15 @@ const Home = () => {
     setSelectedBlocks(availableBlocNumbers);
   }, [JSON.stringify(availableTokens)]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (filteredAuctions.length > 0) getCurrentBlock();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [filteredAuctions.length]);
+
   return (
     <div className="home">
       <SearchAuctions
@@ -91,6 +100,7 @@ const Home = () => {
         isGetAuctionsLoading={isGetAuctionsLoading}
         minProfit={minProfit}
         setMinProfit={setMinProfit}
+        getCurrentBlock={getCurrentBlock}
       />
       {isGetAuctionsLoading && <CircularProgress />}
       {!isGetAuctionsLoading && <div className="results">{`Találatok: ${filteredAuctions.length}`}</div>}
@@ -130,6 +140,7 @@ const Home = () => {
           page={page}
           setPage={setPage}
           auctionsOnPage={auctionsOnPage}
+          currentBlock={currentBlock}
         />
         <RightColumn
           auctions={auctions}

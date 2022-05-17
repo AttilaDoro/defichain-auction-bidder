@@ -16,6 +16,7 @@ const SearchAuctions = ({
   isGetAuctionsLoading,
   minProfit,
   setMinProfit,
+  getCurrentBlock,
 }) => (
   <div className="search-auctions">
     <div className="api-inputs">
@@ -62,6 +63,7 @@ const SearchAuctions = ({
       disabled={isGetAuctionsLoading}
       onClick={() => {
         getAuctions(auctionNum, minMargin, minProfit);
+        getCurrentBlock();
       }}
     >
       Megnézem vannak-e jó aukciók

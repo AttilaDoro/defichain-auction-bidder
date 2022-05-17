@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import Context from './state/context';
 import reducer, { initialState } from './state/reducer';
-import { GET_AUCTIONS_START, GET_AUCTIONS_FINISH, GET_AUCTIONS_ERROR } from './state/actions';
+import { GET_AUCTIONS_START, GET_AUCTIONS_FINISH, GET_AUCTIONS_ERROR, SET_CURRENT_BLOCK } from './state/actions';
 import Home from './pages/Home';
 
 const getState = (state, dispatch) => ({
@@ -22,6 +22,17 @@ const getState = (state, dispatch) => ({
       dispatch({ type: GET_AUCTIONS_FINISH, auctions });
     } catch (error) {
       dispatch({ type: GET_AUCTIONS_ERROR, error });
+    }
+  },
+  getCurrentBlock: async () => {
+    try {
+      const url = 'https://ocean.defichain.com/v0.33/mainnet/stats';
+      const response = await fetch(url);
+      const stats = await response.json();
+      const currentBlock = stats?.data?.count?.blocks;
+      dispatch({ type: SET_CURRENT_BLOCK, currentBlock });
+    } catch (error) {
+      console.log(error);
     }
   },
 });
