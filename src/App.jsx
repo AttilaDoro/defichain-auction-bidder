@@ -26,7 +26,7 @@ const getState = (state, dispatch) => ({
   },
   getCurrentBlock: async () => {
     try {
-      const url = 'https://ocean.defichain.com/v0.33/mainnet/stats';
+      const url = 'https://ocean.defichain.com/v0/mainnet/stats';
       const response = await fetch(url);
       const stats = await response.json();
       const currentBlock = stats?.data?.count?.blocks;
